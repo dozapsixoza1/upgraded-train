@@ -1,6 +1,11 @@
 import os
 
-BOT_TOKEN = os.getenv("BOT_TOKEN", "YOUR_BOT_TOKEN_HERE")
+BOT_TOKEN = os.getenv("BOT_TOKEN", "8776974689:AAHmK-Ekn39cvYAOTjkwKZWGsNWBBUKPhIo")
+
+# Вставь сюда свой Telegram user_id
+ADMIN_IDS: list[int] = [
+    7950038145,  # замени на свой ID
+]
 DB_PATH = "legit.db"
 
 # Bosses config
