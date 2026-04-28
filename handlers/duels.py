@@ -14,13 +14,13 @@ def calc_power(user: dict) -> int:
     return user['strength'] * 3 + user['agility'] * 2 + user['intellect']
 
 async def get_cooldown(user_id: int):
-    async with await get_db() as db:
+    async with get_db() as db:
         async with db.execute("SELECT last_duel FROM duel_cooldowns WHERE user_id=?", (user_id,)) as cur:
             row = await cur.fetchone()
             return row[0] if row else None
 
 async def set_cooldown(user_id: int):
-    async with await get_db() as db:
+    async with get_db() as db:
         await db.execute(
             "INSERT OR REPLACE INTO duel_cooldowns (user_id, last_duel) VALUES (?,?)",
             (user_id, datetime.utcnow().isoformat())
