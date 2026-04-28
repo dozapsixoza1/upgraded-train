@@ -192,7 +192,7 @@ async def cb_clan_reject(cb: CallbackQuery):
     applicant_id = int(cb.data.split("_")[2])
     user = await get_user(cb.from_user.id)
     from database.db import get_db
-    async with await get_db() as db:
+    async with get_db() as db:
         await db.execute("DELETE FROM clan_applications WHERE clan_id=? AND user_id=?", (user['clan_id'], applicant_id))
         await db.commit()
     await cb.answer("❌ Заявка отклонена!")
