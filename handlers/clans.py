@@ -218,7 +218,7 @@ async def cb_clan_list(cb: CallbackQuery):
         [InlineKeyboardButton(text="🔙 Назад", callback_data="menu_clan")]
     ]))
 
-@router.command(Command("клан"))
+@router.message(Command("клан"))
 async def cmd_clan_top_n(msg: Message):
     parts = msg.text.strip().split()
     n = int(parts[1]) if len(parts) > 1 and parts[1].isdigit() else 10
