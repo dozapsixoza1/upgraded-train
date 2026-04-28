@@ -107,7 +107,7 @@ async def cb_boss_attack(cb: CallbackQuery):
     session = await get_active_boss_session(cb.from_user.id, boss_id)
     if not session:
         sid = await create_boss_session(cb.from_user.id, boss_id)
-        async with await get_db() as db:
+        async with get_db() as db:
             db.row_factory = lambda c, r: dict(zip([col[0] for col in c.description], r))
             async with db.execute("SELECT * FROM boss_sessions WHERE id=?", (sid,)) as cur:
                 session = await cur.fetchone()
