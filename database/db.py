@@ -26,6 +26,7 @@ async def init_db():
             daily_attacks_date TEXT,
             daily_attacks_count INTEGER DEFAULT 0,
             skill_damage INTEGER DEFAULT 0,
+            is_banned   INTEGER DEFAULT 0,
             created_at  TEXT DEFAULT (datetime('now'))
         );
 
