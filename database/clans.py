@@ -1,4 +1,4 @@
-    from database.db import get_db
+from database.db import get_db
 
 async def create_clan(name: str, owner_id: int):
     async with get_db() as db:
