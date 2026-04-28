@@ -2,7 +2,7 @@ from database.db import get_db
 from config import BOSSES
 
 async def get_active_boss_session(owner_id: int, boss_id: int):
-    async with await get_db() as db:
+    async with get_db() as db:
         db.row_factory = lambda c, r: dict(zip([col[0] for col in c.description], r))
         async with db.execute(
             "SELECT * FROM boss_sessions WHERE owner_id=? AND boss_id=? AND finished=0",
@@ -12,7 +12,7 @@ async def get_active_boss_session(owner_id: int, boss_id: int):
 
 async def create_boss_session(owner_id: int, boss_id: int):
     boss = next(b for b in BOSSES if b["id"] == boss_id)
-    async with await get_db() as db:
+    async with get_db() as db:
         await db.execute(
             "INSERT INTO boss_sessions (owner_id, boss_id, current_hp) VALUES (?,?,?)",
             (owner_id, boss_id, boss["hp"])
@@ -30,7 +30,7 @@ async def create_boss_session(owner_id: int, boss_id: int):
             return row[0]
 
 async def apply_damage(session_id: int, user_id: int, damage: int):
-    async with await get_db() as db:
+    async with get_db() as db:
         db.row_factory = lambda c, r: dict(zip([col[0] for col in c.description], r))
         async with db.execute("SELECT * FROM boss_sessions WHERE id=?", (session_id,)) as cur:
             session = await cur.fetchone()
@@ -56,7 +56,7 @@ async def apply_damage(session_id: int, user_id: int, damage: int):
         return new_hp, finished
 
 async def get_boss_leaderboard(session_id: int):
-    async with await get_db() as db:
+    async with get_db() as db:
         db.row_factory = lambda c, r: dict(zip([col[0] for col in c.description], r))
         async with db.execute(
             "SELECT bh.user_id, u.first_name, SUM(bh.damage) as total "
@@ -67,7 +67,7 @@ async def get_boss_leaderboard(session_id: int):
             return await cur.fetchall()
 
 async def get_duel_history(chat_id: int, limit: int = 10):
-    async with await get_db() as db:
+    async with get_db() as db:
         db.row_factory = lambda c, r: dict(zip([col[0] for col in c.description], r))
         async with db.execute(
             "SELECT d.*, a.first_name as attacker_name, df.first_name as defender_name "
@@ -80,7 +80,7 @@ async def get_duel_history(chat_id: int, limit: int = 10):
             return await cur.fetchall()
 
 async def log_duel(attacker_id, defender_id, winner_id, grams_won, galeons_won, chat_id):
-    async with await get_db() as db:
+    async with get_db() as db:
         await db.execute(
             "INSERT INTO duels (attacker_id, defender_id, winner_id, grams_won, galeons_won, chat_id) "
             "VALUES (?,?,?,?,?,?)",
