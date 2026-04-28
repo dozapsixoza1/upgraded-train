@@ -12,7 +12,7 @@ async def get_daily_sent(user_id: int) -> int:
     """Calculate how much was sent today from transfer log."""
     from database.db import get_db
     today = str(date.today())
-    async with await get_db() as db:
+    async with get_db() as db:
         async with db.execute(
             "SELECT COALESCE(SUM(amount),0) as total FROM transfers "
             "WHERE from_id=? AND date(created_at)=?",
